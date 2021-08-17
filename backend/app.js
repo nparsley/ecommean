@@ -2,6 +2,11 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const cors = require('cors');
+
+// initialize cors
+app.use(cors);
+app.options('*', cors());
 
 
 // initialize api before access
@@ -22,7 +27,7 @@ app.use(`${api}/products`, productsRouter);
 const categoriesRouter = require('./routers/categories');
 app.use(`${api}/categories`, categoriesRouter);
 
-const ordersRouter = require('./routers/prders');
+const ordersRouter = require('./routers/orders');
 app.use(`${api}/orders`, ordersRouter);
 
 const usersRouter = require('./routers/users');
