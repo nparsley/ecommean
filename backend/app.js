@@ -3,37 +3,36 @@ const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
+require('dotenv/config');
 
 // initialize cors
-app.use(cors);
+app.use(cors());
 app.options('*', cors());
 
-
-// initialize api before access
-require('dotenv/config');
-const api = process.env.API_URL;
-
-
-// app.use(bodyParser.json()) with app.use(express.json())
 
 // middleware
 app.use(express.json());
 app.use(morgan('tiny'));
 
+// initialize api before access
+const api = process.env.API_URL;
+
+
+// app.use(bodyParser.json()) with app.use(express.json())
+
+
 // routes
 const productsRouter = require('./routers/products');
-app.use(`${api}/products`, productsRouter);
-
 const categoriesRouter = require('./routers/categories');
-app.use(`${api}/categories`, categoriesRouter);
-
 const ordersRouter = require('./routers/orders');
-app.use(`${api}/orders`, ordersRouter);
-
 const usersRouter = require('./routers/users');
+
+
+
+app.use(`${api}/products`, productsRouter);
+app.use(`${api}/categories`, categoriesRouter);
+app.use(`${api}/orders`, ordersRouter);
 app.use(`${api}/users`, usersRouter);
-
-
 
 
 
