@@ -100,4 +100,27 @@ router.delete('/:id', (req, res) => {
     })
 })
 
+// api to count docs in database
+router.get('/get/count', async (req, res) => {
+    const productCount = await Product.countDocuments((count) => count)
+
+    if(!productCount) {
+        res.status(500).json({success: false})
+    }
+    res.send({
+        productCount: productCount
+    });
+})
+
+// api to add featured produts to homepage
+router.get('/get/featured/:count', async (req, res) => {
+    const count = req.params.count ? req.params.count : 0;
+    const products = await Product.find({isFeatured: true}).limit(+count);
+
+    if(!products) {
+        res.status(500).json({success: false})
+    }
+    res.send(products);
+})
+
 module.exports = router;
