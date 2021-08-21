@@ -8,7 +8,14 @@ const mongoose = require('mongoose');
 router.get(`/`, async (req, res) => {
     // select - filter out what is displayed on frontend
     // const productList = await Product.find().select('name image -_id');
-    const productList = await Product.find().populate('category');
+
+    // take queryParams and split into array and pass into find
+    let filter = {};
+    if(req.query.categories) {
+        const filter = {category: req.query.categories.split(',')};
+    }
+
+    const productList = await Product.find(filter).populate('category');
 
     if (!productList) {
         res.status(500).json({success: false})
