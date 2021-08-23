@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv/config');
+const authJwt = require('./helpers/jwt');
 
 // initialize cors
 app.use(cors());
@@ -13,6 +14,7 @@ app.options('*', cors());
 // middleware
 app.use(express.json());
 app.use(morgan('tiny'));
+app.use(authJwt());
 
 // initialize api before access
 const api = process.env.API_URL;
