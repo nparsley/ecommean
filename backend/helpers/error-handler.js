@@ -13,3 +13,6 @@ function errorHandler(err, req, res, next) {
     // general err - default to 500 server
     return res.status(500).json({err})
 }
+
+module.exports = errorHandler;
+

@@ -16,7 +16,7 @@ app.options('*', cors());
 app.use(express.json());
 app.use(morgan('tiny'));
 app.use(authJwt());
-app.use(errorHandler())
+app.use(errorHandler);
 
 // initialize api before access
 const api = process.env.API_URL;
