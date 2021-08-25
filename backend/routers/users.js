@@ -122,4 +122,28 @@ router.post('/register', async (req, res) => {
     res.send(user);
 })
 
+router.delete('/:id', (req, res) => {
+    User.findByIdAndRemove(req.params.id).then(user => {
+        if(user) {
+            return res.status(200).json({success: true, message: 'user is deleted'})
+        } else {
+            return res.status(400).json({success: false, message: 'user not found'})
+        }
+    }).catch(err => {
+        return res.status(400).json({success: false, error: err})
+    })
+})
+
+// api to count users in database
+router.get('/get/count', async (req, res) => {
+    const userCount = await User.countDocuments((count) => count)
+
+    if(!userCount) {
+        res.status(500).json({success: false})
+    }
+    res.send({
+        userCount: userCount
+    });
+})
+
 module.exports = router;
