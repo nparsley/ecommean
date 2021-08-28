@@ -20,7 +20,6 @@ router.get(`/:id`, async (req, res) => {
             path : 'product', populate: 'category'} 
         });
 
-
     if(!order) {
         res.status(500).json({success: false})
     }
@@ -65,6 +64,33 @@ router.post('/', async (req, res) => {
         return res.status(404).send('the order cannot be created')
     }
     res.send(order);
+})
+
+router.put('/:id', async (req, res) => {
+    const order = await Order.findByIdAndUpdate(
+        req.params.id,  
+        {   
+            status: req.body.status
+        },
+        // returns new updated data
+        { new: true }
+    )
+    if(!order) {
+        return res.status(400).send('the category cannot be created')
+    }
+    res.send(order);
+})
+
+router.delete('/:id', (req, res) => {
+    Order.findByIdAndRemove(req.params.id).then(order => {
+        if(order) {
+            return res.status(200).json({success: true, message: 'order is deleted'})
+        } else {
+            return res.status(400).json({success: false, message: 'order not found'})
+        }
+    }).catch(err => {
+        return res.status(400).json({success: false, error: err})
+    })
 })
 
 module.exports = router;
